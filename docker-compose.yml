@@ -1,0 +1,313 @@
+version: '3'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    container_name: mongo
+    network_mode: host
+
+
+  eureka-server:
+    build: eureka-server/
+    restart: always
+    network_mode: host
+    container_name: eureka-service-docker
+    ports:
+      - "8080:8080"
+    expose:
+      - 8080
+
+  config-server:
+    build: config-server/
+    restart: always
+    network_mode: host
+    container_name: config-server-docker
+    ports:
+      - "8066:8066"
+    expose:
+      - 8066
+
+  track-service:
+    build: MuzixApplicationTrack/
+    restart: always
+    network_mode: host
+    hostname: localhost
+    container_name: track-service-docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - mongo
+    ports:
+      - "8088:8088"
+    expose:
+      - 8088
+
+  user-service:
+    build: Muzix ApplicationUser/
+    restart: always
+    network_mode: host
+    hostname: localhost
+    container_name: user-service-docker
+    depends_on:
+      - config-server
+      - eureka-server
+      - mongo
+    ports:
+      - "8099:8099"
+    expose:
+      - 8099
+
+  zuul-service:
+    build: Zuul/
+    restart: always
+    network_mode: host
+    container_name: zuul-server-docker
+    ports:
+      - "8022:8022"
+    expose:
+      - 8022
+
+#    eureka-service:
+
+
+
+#      build: eureka-service/
+
+
+
+#      restart: always
+
+
+
+#      depends_on:
+
+
+
+#        - config-server
+
+
+
+#      network_mode: host
+
+
+
+#      image: eureka-service
+
+
+
+#      hostname: localhost
+
+
+
+#      ports:
+
+
+
+#        - 9091:9091
+
+
+
+#
+
+
+
+#    config-server:
+
+
+
+#      build: config-server/
+
+
+
+#      restart: always
+
+
+
+#      depends_on:
+
+
+
+#        - eureka-service
+
+
+
+#      network_mode: host
+
+
+
+#      image: config-server
+
+
+
+#      hostname: localhost
+
+
+
+#      ports:
+
+
+
+#        - 8066:8066
+
+
+
+#
+
+
+
+#    TrackService:
+
+
+
+#      build: TrackService/
+
+
+
+#      restart: always
+
+
+
+#      depends_on:
+
+
+
+#        - config-server
+
+
+
+#        - eureka-service
+
+
+
+#        - mongo
+
+
+
+#      network_mode: host
+
+
+
+#      image: TrackService
+
+
+
+#      hostname: localhost
+
+
+
+#      ports:
+
+
+
+#        - 8088:8088
+
+
+
+#
+
+
+
+#    UserService:
+
+
+
+#      build: UserService/
+
+
+
+#      restart: always
+
+
+
+#      depends on:
+
+
+
+#        - config-server
+
+
+
+#        - eureka-service
+
+
+
+#        - mongo
+
+
+
+#      network_mode: host
+
+
+
+#      image: UserService
+
+
+
+#      hostname: localhost
+
+
+
+#      ports:
+
+
+
+#        - 8193:8193
+
+
+
+#
+
+
+
+#    zuul-service:
+
+
+
+#      build: zuul-service/
+
+
+
+#      restart: always
+
+
+
+#      depends on:
+
+
+
+#        - config-server
+
+
+
+#        - UserService
+
+
+
+#        - TrackService
+
+
+
+#        - eureka-service
+
+
+
+#      network_mode: host
+
+
+
+#      image: zuul-service
+
+
+
+#      hostname: localhost
+
+
+
+#      ports:
+
+
+
+#        - 8085:8085
+

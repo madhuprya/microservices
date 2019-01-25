@@ -1,0 +1,22 @@
+#eureka:
+#    client:
+#        fetch-registry: true
+#        register-with-eureka: true
+#        serviceUrl:
+#            defaultZone: http://172.23.239.92:9091/eureka/
+server:
+    port: 8099
+#song:
+#-   null
+#-   tComment: The best song ever written
+#    tId: 12
+#    tName: Bohemian Rhapsody
+#-   tComment: Radio, we still love you
+#    tId: 22
+#    tName: Radio Ga Ga
+#-   tComment: My personal favorite
+#    tId: 32
+#    tName: Another one bites the dust
+spring:
+    application:
+        name: userservice
